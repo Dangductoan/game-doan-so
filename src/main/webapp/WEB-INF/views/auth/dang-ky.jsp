@@ -1,4 +1,4 @@
-<%@ page import="cybersoft.javabackend.java18.gamedoanso.Utils.UrlUtils" %>
+<%@ page import="cybersoft.javabackend.java18.gamedoanso.utils.UrlUtils" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <!doctype html>
@@ -18,9 +18,9 @@
 		<h1 class="text-center text-primary mt-5">ĐĂNG KÝ</h1>
 		<div class="row mt-5">
 			<div class="col-md-4 offset-md-4">
-				<% if(request.getSession().getAttribute("errors") != null) { %>
+				<% if(request.getAttribute("errors") != null) { %>
 				<div class="alert alert-danger" role="alert">
-					<%=request.getSession().getAttribute("errors")%>
+					${errors}
 				</div>
 				<%}%>
 				<form action="<%=request.getContextPath() + UrlUtils.DANG_KY%>" method="post">

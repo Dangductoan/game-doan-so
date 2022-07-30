@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cybersoft.javabackend.java18.gamedoanso.Utils.JspUtils;
-import cybersoft.javabackend.java18.gamedoanso.Utils.UrlUtils;
+import cybersoft.javabackend.java18.gamedoanso.utils.JspUtils;
+import cybersoft.javabackend.java18.gamedoanso.utils.UrlUtils;
 
 @WebServlet(name = "gameServlet", urlPatterns = {
 		UrlUtils.GAME,
@@ -23,6 +23,7 @@ public class GameServlet extends HttpServlet {
 					.forward(req, resp);
 			case UrlUtils.XEP_HANG -> req.getRequestDispatcher(JspUtils.XEP_HANG)
 					.forward(req, resp);
+			default -> resp.sendRedirect(req.getContextPath() + UrlUtils.NOT_FOUND);
 		}
 	}
 }
