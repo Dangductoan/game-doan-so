@@ -1,11 +1,12 @@
 package cybersoft.javabackend.java18.gamedoanso.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ManChoi {
+public class ManChoi implements Serializable {
 	private static int soId = 1;
 	private static Random random = null;
 	private String id;

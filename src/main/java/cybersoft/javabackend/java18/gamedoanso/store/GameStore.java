@@ -16,6 +16,8 @@ public class GameStore {
 		dsNguoiChoi = new ArrayList<>();
 		dsManChoi = new ArrayList<>();
 		dsLanDoan = new ArrayList<>();
+
+		dsNguoiChoi.add(new NguoiChoi("admin", "1234", "Admin"));
 	}
 
 	public List<NguoiChoi> getDsNguoiChoi() {
