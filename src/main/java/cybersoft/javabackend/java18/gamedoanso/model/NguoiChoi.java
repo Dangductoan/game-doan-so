@@ -1,11 +1,12 @@
 package cybersoft.javabackend.java18.gamedoanso.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class NguoiChoi {
-	private String username;
-	private String password;
-	private String name;
+public class NguoiChoi implements Serializable {
+	private final String username;
+	private final String password;
+	private final String name;
 	private List<ManChoi> manChoi;
 	
 	public NguoiChoi(String username, String password, String name) {

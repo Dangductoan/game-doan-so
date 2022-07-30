@@ -1,6 +1,7 @@
-package cybersoft.javabackend.java18.gamedoanso.Utils;
+package cybersoft.javabackend.java18.gamedoanso.utils;
 
 public class JspUtils {
+	private JspUtils(){}
 	public static final String DANG_KY = "/WEB-INF/views/auth/dang-ky.jsp";
 	public static final String DANG_NHAP = "/WEB-INF/views/auth/dang-nhap.jsp";
 	public static final String GAME = "/WEB-INF/views/game/game.jsp";
