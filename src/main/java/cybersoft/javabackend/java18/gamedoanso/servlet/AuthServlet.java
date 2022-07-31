@@ -2,6 +2,7 @@ package cybersoft.javabackend.java18.gamedoanso.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,40 +34,40 @@ public class AuthServlet extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		switch (req.getServletPath()) {
-			case UrlUtils.DANG_KY -> processRegister(req, resp);
-			case UrlUtils.DANG_NHAP -> processLogin(req, resp);
-			default -> resp.sendRedirect(req.getContextPath() + UrlUtils.NOT_FOUND);
-		}
-	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        switch (req.getServletPath()) {
+            case UrlUtils.DANG_KY -> processRegister(req, resp);
+            case UrlUtils.DANG_NHAP -> processLogin(req, resp);
+            default -> resp.sendRedirect(req.getContextPath() + UrlUtils.NOT_FOUND);
+        }
+    }
 
-	private void processLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		var player = GameService.getINSTANCE().dangNhap(req.getParameter("username"), req.getParameter("password"));
+    private void processLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var player = GameService.getINSTANCE().dangNhap(req.getParameter("username"), req.getParameter("password"));
 
-		if(player == null){
-			req.setAttribute("errors", "Username or password is incorrect!");
-			this.doGet(req, resp);
-		} else {
-			req.getSession().setAttribute("currentUser", player);
-			resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
-		}
-	}
+        if (player == null) {
+            req.setAttribute("errors", "Username or password is incorrect!");
+            this.doGet(req, resp);
+        } else {
+            req.getSession().setAttribute("currentUser", player);
+            resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
+        }
+    }
 
-	private void processRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
-		String name = req.getParameter("name");
+    private void processRegister(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
+        String name = req.getParameter("name");
 
-		var newPlayer = GameService.getINSTANCE().dangKy(username, password, name);
+        var newPlayer = GameService.getINSTANCE().dangKy(username, password, name);
 
-		if(newPlayer != null) {
-			req.getSession().setAttribute("currentUser", newPlayer);
-			resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
-		} else {
-			req.setAttribute("errors", "Thông tin người dùng không hợp lệ hoặc đã được sử dụng.");
-			doGet(req, resp);
-		}
-	}
+        if (newPlayer != null) {
+            req.getSession().setAttribute("currentUser", newPlayer);
+            resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
+        } else {
+            req.setAttribute("errors", "Thông tin người dùng không hợp lệ hoặc đã được sử dụng.");
+            doGet(req, resp);
+        }
+    }
 }

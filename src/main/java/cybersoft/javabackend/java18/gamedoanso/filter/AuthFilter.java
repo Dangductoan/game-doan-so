@@ -14,18 +14,24 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
-
-        if(isAuthUrl(req)){
+        // process before the request get in servlet
+        // filterChain.doFilter(req, resp);
+        // process response from servlet
+        if (isLoginUser(req) || isAuthUrl(req)) {
             filterChain.doFilter(req, resp);
-        } else
-            if(req.getSession().getAttribute("currentUser") != null)
-                filterChain.doFilter(req, resp);
-            else
-                resp.sendRedirect(req.getContextPath() + UrlUtils.DANG_NHAP);
+        } else {
+            resp.sendRedirect(req.getContextPath() + UrlUtils.DANG_NHAP);
+        }
     }
 
-    private boolean isAuthUrl(HttpServletRequest request){
-        return request.getServletPath().startsWith(UrlUtils.DANG_KY)
-                || request.getServletPath().startsWith(UrlUtils.DANG_NHAP);
+    private boolean isAuthUrl(HttpServletRequest req) {
+        var path = req.getServletPath();
+        return path.startsWith(UrlUtils.DANG_KY)
+                || path.startsWith(UrlUtils.DANG_NHAP);
+    }
+
+    private boolean isLoginUser(HttpServletRequest req) {
+        var currentUser = req.getSession().getAttribute("currentUser");
+        return currentUser != null;
     }
 }
