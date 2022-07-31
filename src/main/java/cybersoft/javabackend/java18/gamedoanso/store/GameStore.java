@@ -1,34 +1,34 @@
 package cybersoft.javabackend.java18.gamedoanso.store;
 
+import cybersoft.javabackend.java18.gamedoanso.model.GameSession;
+import cybersoft.javabackend.java18.gamedoanso.model.Guess;
+import cybersoft.javabackend.java18.gamedoanso.model.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import cybersoft.javabackend.java18.gamedoanso.model.LanDoan;
-import cybersoft.javabackend.java18.gamedoanso.model.ManChoi;
-import cybersoft.javabackend.java18.gamedoanso.model.NguoiChoi;
-
 public class GameStore {
-	private List<NguoiChoi> dsNguoiChoi;
-	private List<ManChoi> dsManChoi;
-	private List<LanDoan> dsLanDoan;
-	
-	GameStore () {
-		dsNguoiChoi = new ArrayList<>();
-		dsManChoi = new ArrayList<>();
-		dsLanDoan = new ArrayList<>();
+    private final List<Player> players;
+    private final List<GameSession> gameSessions;
+    private final List<Guess> guesses;
 
-		dsNguoiChoi.add(new NguoiChoi("admin", "1234", "Admin"));
-	}
+    GameStore() {
+        players = new ArrayList<>();
+        gameSessions = new ArrayList<>();
+        guesses = new ArrayList<>();
 
-	public List<NguoiChoi> getDsNguoiChoi() {
-		return dsNguoiChoi;
-	}
+        players.add(new Player("admin", "1234", "Admin"));
+    }
 
-	public List<ManChoi> getDsManChoi() {
-		return dsManChoi;
-	}
+    public List<Player> getPlayers() {
+        return players;
+    }
 
-	public List<LanDoan> getDsLanDoan() {
-		return dsLanDoan;
-	}
+    public List<GameSession> getGameSessions() {
+        return gameSessions;
+    }
+
+    public List<Guess> getGuesses() {
+        return guesses;
+    }
 }
