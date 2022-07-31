@@ -12,7 +12,7 @@ public class GameService {
 		return INSTANCE;
 	}
 
-	private GameStore store;
+	private final GameStore store;
 	
 	private GameService () {
 		store = GameStoreHolder.getStore();
@@ -49,16 +49,12 @@ public class GameService {
 		
 		if (password == null || "".equals(password.trim()))
 			return false;
-		
-		if (name == null || "".equals(name.trim()))
-			return false;
-		
-		System.out.println(KetQua.GREATER_THAN);
-		
-		return true;
+
+		return name != null && !"".equals(name.trim());
 	}
 	
-	public class KetQua {
+	public static class KetQua {
+		private KetQua(){}
 		public static final String GREATER_THAN = "Số bạn đoán lớn hơn kết quả.";
 		public static final String LESSER_THAN = "Số bạn đoán bé hơn kết quả.";
 		public static final String PINGO = "Đoán chính xác!";
