@@ -1,28 +1,33 @@
 package cybersoft.javabackend.java18.gamedoanso.model;
 
+import java.time.LocalDateTime;
+
 public class Guess {
-    private final int soDoan;
+    private final int value;
     private final String gameSession;
-    private String ketQua;
+    private final int result;
+    private final LocalDateTime timestamp;
 
-    public Guess(int soDoan, String gameSession) {
-        this.soDoan = soDoan;
+    public Guess(int value, String gameSession, int result) {
+        this.value = value;
         this.gameSession = gameSession;
+        this.result = result;
+        timestamp = LocalDateTime.now();
     }
 
-    public int getSoDoan() {
-        return this.soDoan;
+    public int getValue() {
+        return this.value;
     }
 
-    public String getKetQua() {
-        return this.ketQua;
-    }
-
-    public void setKetQua(String ketQua) {
-        this.ketQua = ketQua;
+    public int getResult() {
+        return this.result;
     }
 
     public String getGameSession() {
         return this.gameSession;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 }
