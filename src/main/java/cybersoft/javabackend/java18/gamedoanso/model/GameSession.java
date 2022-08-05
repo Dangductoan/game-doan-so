@@ -11,12 +11,12 @@ public class GameSession implements Serializable {
     private static Random random = null;
     private final String id;
     private final int targetNumber;
-    private List<Guess> guess;
-    private LocalDateTime startTime;
+    private final List<Guess> guess;
+    private final LocalDateTime startTime;
+    private final String username; // username
     private LocalDateTime endTime;
     private boolean isCompleted;
     private boolean isActive;
-    private String username; // username
 
     public GameSession(String username) {
         this.id = "GAME" + String.format("%05d", startId++);
@@ -26,7 +26,7 @@ public class GameSession implements Serializable {
         this.username = username;
     }
 
-    private int getRandomInt() {
+    private static int getRandomInt() {
         if (random == null)
             random = new Random();
 

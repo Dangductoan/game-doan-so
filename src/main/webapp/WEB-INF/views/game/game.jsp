@@ -42,18 +42,28 @@
         </ul>
     </div>
 </nav>
+<form action="<%=request.getContextPath() + UrlUtils.NEW_GAME%>" method="post" class="mt-2 mr-5 float-right">
+    <input type="text" name="game-session" value="${game.id}" hidden>
+    <div class="form-row align-items-center">
+        <button type="submit" class="btn btn-outline-success btn-lg">GAME MỚI</button>
+    </div>
+</form>
 <div class="container">
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
+    <div class="row justify-content-center mt-5 clearfix">
+        <div class="col-md-8" ${game.isCompleted ? 'hidden': ''}>
             <h2 class="text text-primary text-center">MỜI BẠN ĐOÁN SỐ</h2>
+        </div>
+        <div class="col-md-8" ${game.isCompleted ? '': 'hidden'}>
+            <h2 class="text text-success text-center">PINGO!!! PINGO!!! PINGO!!!</h2>
         </div>
     </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="<%=request.getContextPath() + UrlUtils.GAME%>" method="post">
+            <form action="<%=request.getContextPath() + UrlUtils.GAME%>" method="post" ${game.isCompleted ? 'hidden': ''}>
+                <input type="text" name="game-session" value="${game.id}" hidden>
                 <div class="form-group form-row">
                     <label for="number"></label>
-                    <input type="number" class="form-control form-control-lg text-center col-4 offset-4" id="number">
+                    <input type="number" name="guess" class="form-control form-control-lg text-center col-4 offset-4" id="number" required ${game.isCompleted ? 'readonly': ''}>
                 </div>
                 <div class="form-row align-items-center">
                     <button type="submit" class="btn btn-outline-primary btn-lg col-4 offset-4">Đoán</button>
@@ -63,7 +73,6 @@
     </div>
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            ${game.id}
             <table class="table table-borderless">
                 <thead>
                 <tr>
@@ -74,24 +83,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="table-success">
-                    <th scope="row">1</th>
-                    <td>113</td>
-                    <td>Chính xác!!!</td>
-                    <td>27/11/1991 19:19:20</td>
-                </tr>
-                <tr class="table-danger">
-                    <th scope="row">2</th>
-                    <td>225</td>
-                    <td>Số bạn đoán lớn hơn kết quả.</td>
-                    <td>27/11/1991 19:19:20</td>
-                </tr>
-                <tr class="table-warning">
-                    <th scope="row">3</th>
-                    <td>113</td>
-                    <td>Số bạn đoán bé hơn kết quả.</td>
-                    <td>27/11/1991 19:19:20</td>
-                </tr>
+                <c:forEach var="guess" items="${game.guess}" varStatus="loop">
+                    <c:choose>
+                        <c:when test="${guess.result == 0}">
+                            <tr class="table-success">
+                                <th scope="row">${loop.index + 1}</th>
+                                <td>${guess.value}</td>
+                                <td>PINGO!!!</td>
+                                <td>${guess.timestamp}</td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${guess.result == -1}">
+                            <tr class="table-danger">
+                                <th scope="row">${loop.index + 1}</th>
+                                <td>${guess.value}</td>
+                                <td>Số vừa đoán bé hơn kết quả.</td>
+                                <td>${guess.timestamp}</td>
+                            </tr>
+                        </c:when>
+                        <c:when test="${guess.result == 1}">
+                            <tr class="table-warning">
+                                <th scope="row">${loop.index + 1}</th>
+                                <td>${guess.value}</td>
+                                <td>Số vừa đoán lớn hơn kết quả.</td>
+                                <td>${guess.timestamp}</td>
+                            </tr>
+                        </c:when>
+                    </c:choose>
+                </c:forEach>
                 </tbody>
             </table>
         </div>

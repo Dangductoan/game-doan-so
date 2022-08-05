@@ -21,4 +21,11 @@ public class GameSessionRepository {
                 .filter(g -> g.getUsername().equals(username))
                 .toList();
     }
+
+    public GameSession findById(String id) {
+        return gameSessions.stream()
+                .filter(g -> g.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }

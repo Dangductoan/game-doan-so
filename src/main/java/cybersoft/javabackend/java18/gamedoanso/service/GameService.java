@@ -6,7 +6,6 @@ import cybersoft.javabackend.java18.gamedoanso.repository.GameSessionRepository;
 import cybersoft.javabackend.java18.gamedoanso.repository.GuessRepository;
 import cybersoft.javabackend.java18.gamedoanso.repository.PlayerRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class GameService {
@@ -30,7 +29,7 @@ public class GameService {
     public GameSession createGame(String username) {
         var gameSession = new GameSession(username);
         gameSession.setActive(true);
-        System.out.println("Create new session: " + gameSession);
+        
         // deactivate other games
         deactiveAllGames(username);
 
@@ -89,25 +88,15 @@ public class GameService {
 
     public GameSession getCurrentGame(String username) {
         List<GameSession> games = gameSessionRepository.findByUsername(username);
-
-        System.out.println("List game sessions: " + Arrays.toString(games.toArray()));
         // get current active game, if there's no game -> create new one
 
-        GameSession testGame = new GameSession("testuser");
+        var activeGame = games.isEmpty()
+                ? createGame(username)
+                : games.stream()
+                .filter(GameSession::isActive)
+                .findFirst()
+                .orElseGet(() -> createGame(username));
 
-        var activeGame =
-                games.size() == 0
-                        ? createGame(username)
-                        : games.stream()
-                        .filter(GameSession::isActive)
-                        .findFirst()
-//                        .orElse(goHome());
-                        .orElseGet(() -> {
-                            System.out.println("Creating new session...");
-                            return createGame(username);
-                        });
-
-        System.out.println("Active session: " + activeGame);
         // get guess list and add to game
         activeGame.getGuess()
                 .addAll(guessRepository
@@ -117,14 +106,12 @@ public class GameService {
         return activeGame;
     }
 
-    private GameSession goHome() {
-        System.out.println("Go home");
-        return null;
+    public GameSession skipAndPlayNewGame(String username) {
+        return createGame(username);
     }
 
-    private GameSession doCreateGame(String username) {
-        System.out.println("Strange thing's happening...");
-        return createGame(username);
+    public GameSession getGameSession(String id) {
+        return gameSessionRepository.findById(id);
     }
 
     public static class KetQua {
