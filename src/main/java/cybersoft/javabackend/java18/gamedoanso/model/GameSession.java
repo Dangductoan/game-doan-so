@@ -53,7 +53,7 @@ public class GameSession implements Serializable {
         return endTime;
     }
 
-    public boolean isCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 

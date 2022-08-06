@@ -27,7 +27,8 @@ public class AuthFilter implements Filter {
     private boolean isAuthUrl(HttpServletRequest req) {
         var path = req.getServletPath();
         return path.startsWith(UrlUtils.DANG_KY)
-                || path.startsWith(UrlUtils.DANG_NHAP);
+                || path.startsWith(UrlUtils.DANG_NHAP)
+                || path.startsWith(UrlUtils.HEALTH);
     }
 
     private boolean isLoginUser(HttpServletRequest req) {
