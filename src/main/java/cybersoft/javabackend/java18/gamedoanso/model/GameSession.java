@@ -19,18 +19,18 @@ public class GameSession implements Serializable {
     private boolean isActive;
 
     public GameSession(String username) {
-        this.id = "GAME" + String.format("%05d", startId++);
-        this.targetNumber = getRandomInt();
+        this.id = "GAME" + String.format("%05d", getRandomInt(100_000));
+        this.targetNumber = getRandomInt(1_000);
         this.guess = new ArrayList<>();
         this.startTime = LocalDateTime.now();
         this.username = username;
     }
 
-    private static int getRandomInt() {
+    private static int getRandomInt(int max) {
         if (random == null)
             random = new Random();
 
-        return random.nextInt(1000 - 1) + 1;
+        return random.nextInt(max - 1) + 1;
     }
 
     public int getTargetNumber() {
