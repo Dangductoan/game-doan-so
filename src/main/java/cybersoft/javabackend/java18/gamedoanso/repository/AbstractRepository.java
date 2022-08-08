@@ -16,6 +16,14 @@ public class AbstractRepository<T> {
         }
     }
 
+    public T executeQuerySingle(JdbcExecute<T> processor) {
+        try (Connection connection = MySqlConnection.getConnection()) {
+            return processor.processQuery(connection);
+        } catch (SQLException e) {
+            throw new DatabaseNotFoundException(e.getMessage());
+        }
+    }
+
     public int executeUpdate(JdbcExecute<Integer> processor) {
         try (Connection connection = MySqlConnection.getConnection()) {
             return processor.processQuery(connection);

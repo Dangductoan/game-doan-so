@@ -64,7 +64,7 @@ public class GameServlet extends HttpServlet {
         var currentUser = (Player) req.getSession().getAttribute("currentUser");
         // create new game/get existed game
         gameService.skipAndPlayNewGame(currentUser.getUsername());
-        
+
         doGet(req, resp);
     }
 
@@ -80,20 +80,23 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
+        gameSession.getGuess().add(createGuess(gameSession, guessNumber));
+
         if (guessNumber == gameSession.getTargetNumber()) {
-            gameSession.getGuess().add(new Guess(guessNumber, gameSessionId, 0));
+            gameService.completeGame(gameSessionId);
             gameSession.setCompleted(true);
             sendResultToGameUI(req, resp, gameSession);
             return;
         }
 
-        if (guessNumber > gameSession.getTargetNumber()) {
-            gameSession.getGuess().add(new Guess(guessNumber, gameSessionId, 1));
-        } else {
-            gameSession.getGuess().add(new Guess(guessNumber, gameSessionId, -1));
-        }
-
         sendResultToGameUI(req, resp, gameSession);
+    }
+
+    private Guess createGuess(GameSession gameSession, int guessNumber) {
+        int result = Integer.compare(guessNumber, gameSession.getTargetNumber());
+        Guess newGuess = new Guess(guessNumber, gameSession.getId(), result);
+        gameService.saveGuess(newGuess);
+        return newGuess;
     }
 
     private void sendResultToGameUI(HttpServletRequest req, HttpServletResponse resp, GameSession gameSession) throws ServletException, IOException {

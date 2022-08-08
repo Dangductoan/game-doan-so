@@ -1,6 +1,7 @@
 package cybersoft.javabackend.java18.gamedoanso.service;
 
 import cybersoft.javabackend.java18.gamedoanso.model.GameSession;
+import cybersoft.javabackend.java18.gamedoanso.model.Guess;
 import cybersoft.javabackend.java18.gamedoanso.model.Player;
 import cybersoft.javabackend.java18.gamedoanso.repository.GameSessionRepository;
 import cybersoft.javabackend.java18.gamedoanso.repository.GuessRepository;
@@ -29,24 +30,13 @@ public class GameService {
     public GameSession createGame(String username) {
         var gameSession = new GameSession(username);
         gameSession.setActive(true);
-        
+
         // deactivate other games
-        deactiveAllGames(username);
+        gameSessionRepository.deactivateAllGames(username);
 
         gameSessionRepository.save(gameSession);
 
         return gameSession;
-    }
-
-    private void deactiveAllGames(String username) {
-        List<GameSession> gameSessions = gameSessionRepository.findByUsername(username);
-        if (gameSessions == null)
-            return;
-
-        gameSessions.stream()
-                .filter(GameSession::isActive)
-                .toList()
-                .forEach(g -> g.setActive(false));
     }
 
     public Player dangNhap(String username, String password) {
@@ -98,12 +88,14 @@ public class GameService {
                 .orElseGet(() -> createGame(username));
 
         // get guess list and add to game
-        activeGame.getGuess()
-                .addAll(guessRepository
-                        .findBySession(activeGame.getId())
-                );
+        activeGame.setGuess(guessRepository
+                .findBySession(activeGame.getId()));
 
         return activeGame;
+    }
+
+    public void saveGuess(Guess guess) {
+        guessRepository.save(guess);
     }
 
     public GameSession skipAndPlayNewGame(String username) {
@@ -111,7 +103,13 @@ public class GameService {
     }
 
     public GameSession getGameSession(String id) {
-        return gameSessionRepository.findById(id);
+        GameSession gameSession = gameSessionRepository.findById(id);
+        gameSession.setGuess(guessRepository.findBySession(id));
+        return gameSession;
+    }
+
+    public void completeGame(String sessionId) {
+        gameSessionRepository.completeGame(sessionId);
     }
 
     public static class KetQua {

@@ -21,6 +21,13 @@ public class Guess {
         this.timestamp = timestamp;
     }
 
+    public Guess(int value, String sessionId, LocalDateTime moment, int result) {
+        this.value = value;
+        this.gameSession = sessionId;
+        this.timestamp = moment;
+        this.result = result;
+    }
+
     public int getValue() {
         return this.value;
     }

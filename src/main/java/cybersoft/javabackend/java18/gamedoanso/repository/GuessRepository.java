@@ -1,25 +1,24 @@
 package cybersoft.javabackend.java18.gamedoanso.repository;
 
 import cybersoft.javabackend.java18.gamedoanso.model.Guess;
-import cybersoft.javabackend.java18.gamedoanso.store.GameStoreHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Collection;
+import java.sql.Timestamp;
+import java.time.ZoneOffset;
 import java.util.LinkedList;
 import java.util.List;
 
 public class GuessRepository extends AbstractRepository<Guess> {
-    private final List<Guess> guesses;
 
     public GuessRepository() {
-        guesses = GameStoreHolder.getStore().getGuesses();
+
     }
 
-    public Collection<? extends Guess> findBySession(String session) {
+    public List<Guess> findBySession(String session) {
         return executeQuery(connection -> {
             String query = """
-                    select value, moment, session_id
+                    select value, moment, session_id, result
                     from guess
                     where session_id = ?
                     """;
@@ -34,12 +33,32 @@ public class GuessRepository extends AbstractRepository<Guess> {
                 Guess newGuess = new Guess(
                         resultSet.getInt("value"),
                         resultSet.getString("session_id"),
-                        resultSet.getDate("moment").toLocalDate().atStartOfDay()
+                        resultSet.getDate("moment").toLocalDate().atStartOfDay(),
+                        resultSet.getInt("result")
                 );
                 guesses.add(newGuess);
             }
 
             return guesses;
+        });
+    }
+
+    public void save(Guess guess) {
+        executeUpdate(connection -> {
+            String query = """
+                    insert into guess(value, moment, session_id, result)
+                    values(?, ?, ?, ?)
+                    """;
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, guess.getValue());
+            statement.setTimestamp(2, Timestamp.from(
+                    guess.getTimestamp().toInstant(ZoneOffset.of("+07:00")))
+            );
+            statement.setString(3, guess.getGameSession());
+            statement.setInt(4, guess.getResult());
+
+            return statement.executeUpdate();
         });
     }
 }

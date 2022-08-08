@@ -9,14 +9,18 @@ import java.util.Random;
 public class GameSession implements Serializable {
     private static int startId = 1;
     private static Random random = null;
-    private final String id;
-    private final int targetNumber;
-    private final List<Guess> guess;
-    private final LocalDateTime startTime;
-    private final String username; // username
+    private String id;
+    private int targetNumber;
+    private List<Guess> guess;
+    private LocalDateTime startTime;
+    private String username; // username
     private LocalDateTime endTime;
     private boolean isCompleted;
     private boolean isActive;
+
+    public GameSession() {
+
+    }
 
     public GameSession(String username) {
         this.id = "GAME" + String.format("%05d", getRandomInt(100_000));
@@ -45,6 +49,10 @@ public class GameSession implements Serializable {
         return guess;
     }
 
+    public void setGuess(List<Guess> guesses) {
+        this.guess = guesses;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -71,6 +79,42 @@ public class GameSession implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    // fluent style api
+    public GameSession id(String id) {
+        this.id = id;
+        return this;
+    }
+
+    public GameSession targetNumber(int target) {
+        this.targetNumber = target;
+        return this;
+    }
+
+    public GameSession startTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        return this;
+    }
+
+    public GameSession endTime(LocalDateTime target) {
+        this.endTime = target;
+        return this;
+    }
+
+    public GameSession isCompleted(boolean value) {
+        this.isCompleted = value;
+        return this;
+    }
+
+    public GameSession isActive(boolean value) {
+        this.isActive = value;
+        return this;
+    }
+
+    public GameSession username(String value) {
+        this.username = value;
+        return this;
     }
 
     @Override
