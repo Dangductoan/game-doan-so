@@ -1,7 +1,6 @@
 package cybersoft.javabackend.java18.gamedoanso.repository;
 
 import cybersoft.javabackend.java18.gamedoanso.model.GameSession;
-import cybersoft.javabackend.java18.gamedoanso.store.GameStoreHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,20 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameSessionRepository extends AbstractRepository<GameSession> {
-    private final List<GameSession> gameSessions;
-
-    public GameSessionRepository() {
-        gameSessions = GameStoreHolder.getStore().getGameSessions();
-    }
-
     public void save(GameSession gameSession) {
+        final String query = """
+                insert into game_session
+                (id, target, start_time, is_completed, is_active, username)
+                values(?, ?, ?, ?, ?, ?)
+                """;
         executeUpdate(connection -> {
-            String query = """
-                    insert into game_session
-                    (id, target, start_time, is_completed, is_active, username)
-                    values(?, ?, ?, ?, ?, ?)
-                    """;
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, gameSession.getId());
             statement.setInt(2, gameSession.getTargetNumber());
@@ -42,13 +34,12 @@ public class GameSessionRepository extends AbstractRepository<GameSession> {
     }
 
     public List<GameSession> findByUsername(String username) {
+        final String query = """
+                    select id,  target, start_time, end_time, is_completed, is_active, username
+                    from game_session
+                    where username = ?
+                """;
         return executeQuery(connection -> {
-            String query = """
-                        select id,  target, start_time, end_time, is_completed, is_active, username
-                        from game_session
-                        where username = ?
-                    """;
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
 
@@ -71,13 +62,12 @@ public class GameSessionRepository extends AbstractRepository<GameSession> {
     }
 
     public GameSession findById(String id) {
+        final String query = """
+                    select id,  target, start_time, end_time, is_completed, is_active, username
+                    from game_session
+                    where id = ?
+                """;
         return executeQuerySingle(connection -> {
-            String query = """
-                        select id,  target, start_time, end_time, is_completed, is_active, username
-                        from game_session
-                        where id = ?
-                    """;
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, id);
 
@@ -97,39 +87,33 @@ public class GameSessionRepository extends AbstractRepository<GameSession> {
     }
 
     public void deactivateAllGames(String username) {
+        final String query = """
+                update game_session
+                set is_active = 0
+                where username = ?
+                """;
         executeUpdate(connection -> {
-            String query = """
-                    update game_session
-                    set is_active = 0
-                    where username = ?
-                    """;
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
-
             return statement.executeUpdate();
         });
     }
 
     public void completeGame(String sessionId) {
+        final String query = """
+                update game_session
+                set is_completed = 1
+                where id = ?
+                """;
         executeUpdate(connection -> {
-            String query = """
-                    update game_session
-                    set
-                        is_completed = 1,
-                        is_active = 0
-                    where id = ?
-                    """;
-
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, sessionId);
-
             return statement.executeUpdate();
         });
     }
 
     private LocalDateTime getDateTimeFromResultSet(String columnName, ResultSet resultSet) {
-        Timestamp time = null;
+        Timestamp time;
 
         try {
             time = resultSet.getTimestamp(columnName);

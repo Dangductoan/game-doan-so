@@ -27,6 +27,7 @@ create table if not exists guess(
 	value int not null,
 	moment timestamp default CURRENT_TIMESTAMP,
 	session_id varchar(9),
+    result int(1),
 	primary key (id)
 );
 

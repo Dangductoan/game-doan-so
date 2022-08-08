@@ -60,15 +60,15 @@ public class GameServlet extends HttpServlet {
         }
     }
 
-    private void processNewGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void processNewGame(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         var currentUser = (Player) req.getSession().getAttribute("currentUser");
         // create new game/get existed game
         gameService.skipAndPlayNewGame(currentUser.getUsername());
 
-        doGet(req, resp);
+        resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
     }
 
-    private void processGame(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void processGame(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String gameSessionId = req.getParameter("game-session");
         int guessNumber = Integer.parseInt(req.getParameter("guess"));
 
@@ -84,12 +84,9 @@ public class GameServlet extends HttpServlet {
 
         if (guessNumber == gameSession.getTargetNumber()) {
             gameService.completeGame(gameSessionId);
-            gameSession.setCompleted(true);
-            sendResultToGameUI(req, resp, gameSession);
-            return;
         }
 
-        sendResultToGameUI(req, resp, gameSession);
+        resp.sendRedirect(req.getContextPath() + UrlUtils.GAME);
     }
 
     private Guess createGuess(GameSession gameSession, int guessNumber) {
@@ -97,10 +94,5 @@ public class GameServlet extends HttpServlet {
         Guess newGuess = new Guess(guessNumber, gameSession.getId(), result);
         gameService.saveGuess(newGuess);
         return newGuess;
-    }
-
-    private void sendResultToGameUI(HttpServletRequest req, HttpServletResponse resp, GameSession gameSession) throws ServletException, IOException {
-        req.setAttribute("game", gameSession);
-        doGet(req, resp);
     }
 }

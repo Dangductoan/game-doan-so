@@ -24,12 +24,19 @@ public class AbstractRepository<T> {
         }
     }
 
-    public int executeUpdate(JdbcExecute<Integer> processor) {
+    public void executeUpdate(JdbcExecute<Integer> processor) {
+        try (Connection connection = MySqlConnection.getConnection()) {
+            processor.processQuery(connection);
+        } catch (SQLException e) {
+            throw new DatabaseNotFoundException(e.getMessage());
+        }
+    }
+
+    public Boolean existedBy(JdbcExecute<Boolean> processor) {
         try (Connection connection = MySqlConnection.getConnection()) {
             return processor.processQuery(connection);
         } catch (SQLException e) {
             throw new DatabaseNotFoundException(e.getMessage());
         }
     }
-
 }

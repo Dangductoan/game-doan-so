@@ -98,8 +98,8 @@ public class GameService {
         guessRepository.save(guess);
     }
 
-    public GameSession skipAndPlayNewGame(String username) {
-        return createGame(username);
+    public void skipAndPlayNewGame(String username) {
+        createGame(username);
     }
 
     public GameSession getGameSession(String id) {
@@ -110,14 +110,5 @@ public class GameService {
 
     public void completeGame(String sessionId) {
         gameSessionRepository.completeGame(sessionId);
-    }
-
-    public static class KetQua {
-        public static final String GREATER_THAN = "Số bạn đoán lớn hơn kết quả.";
-        public static final String LESSER_THAN = "Số bạn đoán bé hơn kết quả.";
-        public static final String PINGO = "Đoán chính xác!";
-
-        private KetQua() {
-        }
     }
 }
