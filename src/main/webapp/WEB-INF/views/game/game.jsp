@@ -49,7 +49,9 @@
     </div>
 </form>
 <div class="container">
+    <h5 class="row justify-content-center mt-5 ml-3">${game.id}</h5>
     <div class="row justify-content-center mt-5 clearfix">
+
         <div class="col-md-8" ${game.isCompleted ? 'hidden': ''}>
             <h2 class="text text-primary text-center">MỜI BẠN ĐOÁN SỐ</h2>
         </div>
@@ -71,7 +73,9 @@
             </form>
         </div>
     </div>
-    <div class="row justify-content-center mt-5">
+
+    <div class="row justify-content-center mt-5" >
+
         <div class="col-md-8">
             <table class="table table-borderless">
                 <thead>
