@@ -3,6 +3,7 @@ package cybersoft.javabackend.java18.gamedoanso.servlet;
 import cybersoft.javabackend.java18.gamedoanso.model.GameSession;
 import cybersoft.javabackend.java18.gamedoanso.model.Guess;
 import cybersoft.javabackend.java18.gamedoanso.model.Player;
+import cybersoft.javabackend.java18.gamedoanso.model.Rating;
 import cybersoft.javabackend.java18.gamedoanso.service.GameService;
 import cybersoft.javabackend.java18.gamedoanso.utils.JspUtils;
 import cybersoft.javabackend.java18.gamedoanso.utils.UrlUtils;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "gameServlet", urlPatterns = {
         UrlUtils.GAME,
@@ -33,10 +35,17 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         switch (req.getServletPath()) {
             case UrlUtils.GAME, UrlUtils.NEW_GAME -> loadGame(req, resp);
-            case UrlUtils.XEP_HANG -> req.getRequestDispatcher(JspUtils.XEP_HANG)
-                    .forward(req, resp);
+            case UrlUtils.XEP_HANG -> ratingGame(req,resp);
             default -> resp.sendRedirect(req.getContextPath() + UrlUtils.NOT_FOUND);
         }
+    }
+
+    private void ratingGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException  {
+        List<Rating> ratings = gameService.ratingGames();
+
+        req.setAttribute("ratings",ratings);
+        req.getRequestDispatcher(JspUtils.XEP_HANG)
+                .forward(req, resp);
     }
 
     private void loadGame(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

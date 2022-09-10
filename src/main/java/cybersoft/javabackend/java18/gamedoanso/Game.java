@@ -1,4 +1,10 @@
 package cybersoft.javabackend.java18.gamedoanso;
+
+import cybersoft.javabackend.java18.gamedoanso.model.Rating;
+import cybersoft.javabackend.java18.gamedoanso.repository.RatingRepository;
+
+import java.util.List;
+
 /**
  * Game đoán số.
  * Chương trình sinh ra một số ngẫu nhiên từ 1 đến 1000
@@ -23,5 +29,11 @@ package cybersoft.javabackend.java18.gamedoanso;
 public class Game {
 	public void start() {
 		System.out.println("Game started...");
+
+		RatingRepository ratingRepository = new RatingRepository();
+		List<Rating> ratings = ratingRepository.sortByAmountAndTime();
+		for(Rating rating:ratings) {
+			System.out.print(rating);
+		}
 	}
 }

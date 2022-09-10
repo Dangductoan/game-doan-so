@@ -1,24 +1,10 @@
 
 y
 Isrc/main/java/cybersoft/javabackend/java18/gamedoanso/utils/UrlUtils.java,1/8/1849e5ebfe9ce75f0f7ff9f558674f45eb8b6c1a
-p
-@src/main/java/cybersoft/javabackend/java18/gamedoanso/import.sql,3/c/3c75f46b93c91cd13673f0432056f2c64a060e27
-|
-Lsrc/main/java/cybersoft/javabackend/java18/gamedoanso/filter/AuthFilter.java,7\d\7de5a9279aa495ad45cb1e4e30929cffcbb5d963
-Ö
-Usrc/main/java/cybersoft/javabackend/java18/gamedoanso/filter/InternalErrorFilter.java,a\4\a423c12d13480662724fa4f0c05e0a9505f90a12
 z
 Jsrc/main/java/cybersoft/javabackend/java18/gamedoanso/store/GameStore.java,d\6\d6dc32e29ace23a90ab0257f343e872a0c28ac61
-~
-Nsrc/main/java/cybersoft/javabackend/java18/gamedoanso/service/GameService.java,3\1\3156f769ecb97161af12feab42fe219f10ca1916
 Ä
 Psrc/main/java/cybersoft/javabackend/java18/gamedoanso/store/GameStoreHolder.java,b\1\b1d88b49695f379c0dd45a1cec7736e98da4ed55
-Å
-Qsrc/main/java/cybersoft/javabackend/java18/gamedoanso/repository/JdbcExecute.java,e\f\ef0b9a8e2685c4b7a72acfbad0098703c3ab2d2a
-é
-^src/main/java/cybersoft/javabackend/java18/gamedoanso/exception/DatabaseNotFoundException.java,e\0\e066febf0b6bd29d98d9a9da47c9d041ce5f6d4b
-
-Osrc/main/java/cybersoft/javabackend/java18/gamedoanso/jdbc/MySqlConnection.java,6\4\6417472d1c82117b80ceb11b519f45e2a553c403
 ~
 Nsrc/main/java/cybersoft/javabackend/java18/gamedoanso/servlet/HomeServlet.java,e\9\e9df3c6bc02192f489332c79ce4bfd613a7bbe41
 Ä
@@ -26,12 +12,4 @@ Psrc/main/java/cybersoft/javabackend/java18/gamedoanso/servlet/HealthServlet.jav
 
 Osrc/main/java/cybersoft/javabackend/java18/gamedoanso/servlet/ErrorServlet.java,1\0\1021f373515ab200fb29e59b203e05d889f3760e
 ~
-Nsrc/main/java/cybersoft/javabackend/java18/gamedoanso/servlet/GameServlet.java,d\5\d5a98c8dfee2a5fe4cc8313976b5d7da869c9039
-~
 Nsrc/main/java/cybersoft/javabackend/java18/gamedoanso/servlet/AuthServlet.java,b\6\b6e98d722b2b199d1344ce13d6393efbea93145c
-[
-+src/main/webapp/WEB-INF/views/game/game.jsp,7\f\7f4127d6aef665d7722fb9fe1e3ccb7a1412eae4
-o
-?src/main/java/cybersoft/javabackend/java18/gamedoanso/Game.java,9\c\9ce104e9d20abf0b0cbb91169010ca0488e2623b
-v
-Fsrc/main/java/cybersoft/javabackend/java18/gamedoanso/model/Guess.java,0\4\045a68284aa10b4e10c23948a6e5130807dec749

@@ -3,9 +3,11 @@ package cybersoft.javabackend.java18.gamedoanso.service;
 import cybersoft.javabackend.java18.gamedoanso.model.GameSession;
 import cybersoft.javabackend.java18.gamedoanso.model.Guess;
 import cybersoft.javabackend.java18.gamedoanso.model.Player;
+import cybersoft.javabackend.java18.gamedoanso.model.Rating;
 import cybersoft.javabackend.java18.gamedoanso.repository.GameSessionRepository;
 import cybersoft.javabackend.java18.gamedoanso.repository.GuessRepository;
 import cybersoft.javabackend.java18.gamedoanso.repository.PlayerRepository;
+import cybersoft.javabackend.java18.gamedoanso.repository.RatingRepository;
 
 import java.util.List;
 
@@ -14,11 +16,13 @@ public class GameService {
     private final GameSessionRepository gameSessionRepository;
     private final PlayerRepository playerRepository;
     private final GuessRepository guessRepository;
+    private final RatingRepository ratingRepository;
 
     private GameService() {
         gameSessionRepository = new GameSessionRepository();
         playerRepository = new PlayerRepository();
         guessRepository = new GuessRepository();
+        ratingRepository = new RatingRepository();
     }
 
     public static GameService getINSTANCE() {
@@ -110,5 +114,9 @@ public class GameService {
 
     public void completeGame(String sessionId) {
         gameSessionRepository.completeGame(sessionId);
+    }
+
+    public List<Rating> ratingGames() {
+        return ratingRepository.sortByAmountAndTime();
     }
 }
